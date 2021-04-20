@@ -1,0 +1,89 @@
+<odoo>
+    <data>
+
+
+
+        <record id="hms_doctors_tree_view" model="ir.ui.view">
+            <field name="name">HMS Doctors tree view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+
+                    <tree>
+                       <field name="first_name" />
+                       <field name="last_name" />
+                       <field name="birth_date" />
+                       <field name="image" />
+                    </tree>
+            </field>
+        </record>
+
+        <record id="hms_patient_form_view" model="ir.ui.view">
+            <field name="name">HMS patients form view</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="First Info">
+
+                               <field name="first_name" />
+                               <field name="last_name" />
+                                <field name="email" />
+                               <field name="birth_date" />
+                               <field name="age" />
+                               <field name="image" />
+                                 <field name="pcr" />
+                                <field name="cr_ratio" attrs="{
+                                 'required':[('pcr','=',True)],
+                                 }"/>
+                               <field name="blod_type" />
+
+                                <field name="address"/>
+
+                            </group>
+                            <group string="continue Info">
+
+
+
+                                <field name="state"/>
+                                <field name="capacity_dept"/>
+                                <field name="department_id" domain="[('is_opend','=',True)]"/>
+                                <field name="doctors_ids" widget="many2many_tags" attrs="{
+                                 'readonly':[('department_id','=',False)],
+                                 }" groups="hms.hms_manager_group"/>
+
+
+
+
+                            </group>
+
+
+
+
+
+
+                        </group>
+                        <group>
+                            <field name="history" attrs="{
+
+                                 'invisible':[('age','&lt;',50)]
+                                 }" />
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">hms.patient</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="hms_Hospital_menu" name="Hospital"/>
+        <menuitem id="hms_Patient_menu" name="Patient" parent="hms_Hospital_menu" action="patient_action"/>
+
+    </data>
+</odoo>
